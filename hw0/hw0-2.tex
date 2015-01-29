@@ -1,0 +1,53 @@
+\input{../cs374.tex}
+\usepackage{amsmath, hyperref}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 0}{Spring 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+  \setcounter{enumi}{1}
+\item
+  
+  To prove that the two are equivalent, I'll show that both
+  $$L \subseteq \{w \in \{a,b\}^* | \text{w has equal of a's and b's}\}$$
+  $$\{w \in \{a,b\}^* | \text{w has equal of a's and b's}\} \subseteq L$$
+  Effectively showing that the two sets are equal.\footnote{I was inspired by this Piazza post : \url{https://piazza.com/class/i4mrvddxr0h3sd?cid=44}} From here on out, in accordance with the Piazza post, I'm going to refer to the set of strings of equal numbers of a's and b's as ``S''\\\\
+
+  First off, we need to show that all elements of L have an equal number of a's and b's. We'll show this by induction.\\\\
+
+  Base case : The smallest element of L, $\epsilon$, is of length 0, and accordingly has both 0 a's and 0 b's, making it a member of S.\\
+
+  Inductive Hypothesis : Assume all members of L of length $\leq n-2$, and $\geq 0$ have an equal number of a's and b's. (All members of S have an even length because the number of a's, $i$, is equal to the number of b's, making the total $2i$, which is by definition even.)\\
+
+  Inductive Step : For any two members, x and y, of the L we've built up to this point (consisting of only members of length $\leq n-2$), we can create a new string of length $\geq n$, depending on which members of L we chose, of the form axby, or bxay. Let $l = \#(a,x) = \#(b,x)$ and $m = \#(a,y) = \#(b,y)$. Then our new string has $(l+m+1)$ a's and $(l+m+1)$ b's, making the two equal, and thus making our new string of length $\geq n$ a member of S.\\\\
+
+  Next, and slightly harder, we need to show that all members of S can be constructed using L's constructor.\\\\
+
+  Base cases : The trivial case, $\epsilon$, is a member of S since it has 0 a's and 0 b's. It is a member of L just from the definition of L. The two strings of length 2, ``ab'' and ``ba'' are members of L by a$\epsilon$b$\epsilon$ and b$\epsilon$a$\epsilon$ respectively, and have equal a's and b's.
+  
+  Inductive Hypothesis : Assume all strings in S with length $\leq n-2$ and $> 0$ are members of L.\\
+
+  Inductive Step : Let s be a string of length $ = n > 0$ so it has a first character. \\
+
+  Say that character is 'a'. Push the first character onto a stack, and iterate through the entire string with the rules as follows : 1. If you encounter an 'a', push it on the stack. 2. If you encounter a 'b', pop the most recent 'a' off the stack. Continue iterating until the stack size is 0, and mark that index as the end index. Because the number of a's and b's are equal, there's no situation in which the stack will have a nonzero final value. Even for a string like ``aaabbb'', the first time the stack will have size 0 is on the last character of the string.\\
+  The entire substring, p, from our first index to the end index is a prefix of s, such that the number of a's in p is equal to the number of b's. We also know that p begins with an 'a', and ends with a 'b', since the final pop from the stack has to be from a 'b'. And if the prefix has an equal number of a's b's, the remaining suffix, e, does too.\\
+  So the entire string s becomes pe, where $2 \leq |p| \leq n$, meaning $0 \leq |e| \leq n-2$. We can represent p as ap'b, where $0 \leq |p'| \leq n-2$. Since both p' and e have length $\leq n-2$, we know from the inductive hypothesis, that they are members of L. By the constructor of L, $s = ap'be$ is a valid member of L, for two valid members p' and e.\\
+
+  Now suppose the first character is 'b'. We repeat the same process as above, only now pushing 'b's onto the stack, and popping off for the 'a's. Now the final string we get is $s = bp'ae$, where both $'p$ and $e$ are of length $\leq n-2$, making them valid members of L, making s a valid member of L as well.\\\\
+
+  Because we have shown that all members of L are members of S, and also that all members of S are members of L, we have shown that $L \subseteq S$ and $S \subseteq L$, and ultimately that $L = S$. \\
+  Q.E.D.
+  
+  
+\end{enumerate}
+
+\end{document}

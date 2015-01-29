@@ -1,0 +1,29 @@
+\input{../cs374.tex}
+\usepackage{amsmath}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 0}{Spring 2015}
+\pagestyle{myheadings}
+
+
+\begin{enumerate}
+\item
+  Because there is at least one edge, you can't have a graph with n nodes, and 0 edges. This means that whatever connected component of the graph that contains the path between $u$ and $v$ has at least 1 edge.\\
+  
+  On the other extreme, imagine a graph with 1 component, such that there's a central node that connects with all other nodes, so that there are n nodes, and n-1 edges, which is the maximum amount of nodes in a tree without loops.\\
+
+  So given any graph G=(V,E), if we pick any component with at least 1 edge (and, again, we are guaranteed at least one such component because there has to be an edge somewhere), with n nodes and e edges. We know that $1 \leq e \leq n-1$. If we try to fit each of the n nodes into n-1 buckets at the location of its number of outgoing edges, we know by the pidgeonhole principle that there will be at least one overlap. This is an overlap in the number of outgoing edges of at least 2 nodes.\\
+
+  Because this is a component of an undirected simple graph, there is a path between the two. This shows that there is at least 1 path from node u to node v, such that the number of outgoing edges for both u and v are the same.\\
+  Q.E.D.
+  
+\end{enumerate}
+
+\end{document}
