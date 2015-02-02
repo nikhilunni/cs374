@@ -1,0 +1,33 @@
+\input{../cs374.tex}
+\usepackage{amsmath}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 1}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+\item
+  I'll be inducting on the number of operations to construct a regular language.\\\\
+
+  Base Case:\\
+  The base case is when the number of operations to construct the regular language is $n = 1$. The only way to get a regular language of a single operation is through the base case of the inductive definition of regular languages:
+  \begin{itemize}
+  \item $\emptyset$ is represented by a top-plus regular expression, of the form ($\alpha_1 + \ldots + \alpha_k$), where k = 1, because $\alpha_1 = \emptyset$ contains no `+'
+  \item $\{\epsilon\}$, is also represented by a top-plus expression, again where k = 1, where $\alpha_1 = \epsilon$ contains no `+'.
+  \item $\{a\}$, for any $a$ in any arbitrary alphabet, $\Sigma$, is represented by a top-plus expression, where k = 1, where $\alpha_1 = a$ contains no `+'
+  \end{itemize}
+  Inductive Hypothesis:\\
+  Now assume for all regular languages, where the number of operations to construct is $1 \leq k < n$, that they can be represented by a top-plus regular expression.\\\\
+  Inductive Step:\\
+  Without loss of generality, let $r_{n-1}$ be any regular expression (representing a regular language) that was constructed in $(n-1)$ steps.
+  
+
+\end{enumerate}
+\end{document}
