@@ -14,7 +14,7 @@
 
 \begin{enumerate}
 \item
-  I'll be inducting on the number of operations to construct a regular language.\\\\
+  I'll be inducting on the number of operations to construct a regular language. \footnote{Creds to Prof. Pitt : https://piazza.com/class/i4mrvddxr0h3sd?cid=185}\\\\
 
   Base Case:\\
   The base case is when the number of operations to construct the regular language is $n = 1$. The only way to get a regular language of a single operation is through the base case of the inductive definition of regular languages:
@@ -24,10 +24,16 @@
   \item $\{a\}$, for any $a$ in any arbitrary alphabet, $\Sigma$, is represented by a top-plus expression, where k = 1, where $\alpha_1 = a$ contains no `+'
   \end{itemize}
   Inductive Hypothesis:\\
-  Now assume for all regular languages, where the number of operations to construct is $1 \leq k < n$, that they can be represented by a top-plus regular expression.\\\\
+  Now assume all $r_k$ and $r_l$ where $1 \leq k < n$, $1 \leq l < m$, where $r_k$ and $r_l$ are regular expressions that represent regular languages, can be represented by a top-plus regular expression.\\\\
   Inductive Step:\\
-  Without loss of generality, let $r_{n-1}$ be any regular expression (representing a regular language) that was constructed in $(n-1)$ steps.
-  
+  Without loss of generality, let $r_{n-1}$ be any regular expression (representing a regular language) that was constructed in $(n-1)$ steps, and let $r_{m-1}$ be any regular expression constructed in $(m-1)$ steps. Since they are both top-plus expressions, say that $r_{n-1}$ is a top-plus expression with $k=x$ terms, and let $r_{m-1}$ be a top-plus expression with $k=y$ terms.\\
+  We can get a top-plus regular expression of construction size $n$ by constructing on $r_{n-1}$:
+  \begin{itemize}
+  \item $(r_{n-1} + r_{m-1})$ is a top-plus expression because it is the union of $x$ and $y$ terms all without any `+'. The result is a top-plus expression of $k=x+y$.
+  \item $(r_{n-1}r_{m-1})$ is a top-plus expression as well. Through the distributive law of concatenation over union, we have $(r_{n-1}^1 + r_{n-1}^2 + \ldots + r_{n-1}^x)(r_{m-1}^1 + r_{m-1}^2 + \ldots + r_{m-1}^y) = (r_{n-1}^1r_{m-1}^1 + r_{n-1}^1r_{m-1}^2 + \ldots r_{n-1}^xr_{m-1}^y)$, which represents a top-plus expression of $k=xy$. (Here the ``exponents'' represent indices.)
+  \item $(r_{n-1})^*$ is also a top-plus expression. Through the theorem included with the pset, we know that $(r_{n-1}^1+r_{n-1}^2+\ldots+r_{n-1}^x)^* = ({r_{n-1}^1}^{*}{r_{n-1}^2}^{*}\ldots {r_{n-1}^x}^{*})$, which is a top-plus expression of $k=1$.    
+  \end{itemize}
+  Thus, every regular language can be represented by a top-plus regular expression.  
 
 \end{enumerate}
 \end{document}

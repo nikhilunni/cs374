@@ -15,7 +15,26 @@
 \begin{enumerate}
   \setcounter{enumi}{1}
 \item
-  
+  \begin{enumerate}
+    \item
+      $$r = 0^*(1 + 10(00)^*1)^*0^*$$
+      Explanation : Any time we have a 0, it must be followed by a (perhaps empty) even number of 0's, and couched between two 1's, so that every substring of the form $10^+1$ has an odd number of 0's between the 1's.
+    \item
+      $$r = (1^*01^*01^+01^+)^*$$ 
+      Explanation: Every third 0 must be surrounded by at least 1 `1' on either side of it.
+    \item
+      $$r = 1^*(0(00)^*1(11)^* + 00(11)^*)^* 1^*$$
+      Explanation : For every 0, there's the choice to either have an odd or an even number of 0's, and what has to immediately follow is an odd or (perhaps empty) even number of 1's respectively. And it's all surrounded by optional 1's.
+
+    \item
+      $$r = (0+1)^*11(01 + 1)^* + (0+10)^*00(0+1)^* + (0+\epsilon)(10)^*(1+\epsilon)$$
+      Explanation : 
+      \begin{itemize}
+        \item The first monomial represents terms that for sure have 11 as a substring. If this is the case, what follows cannot have any two 0's in a row.
+        \item The second monomial represents terms that for sure have 00 as a substring. If this is the case, what preceeds could not have had any two 1's in a row.
+        \item The third monomial represents all remaining strings that have no 1's or 0's in a row at all.            
+      \end{itemize}
+  \end{enumerate}
 
 \end{enumerate}
 \end{document}
