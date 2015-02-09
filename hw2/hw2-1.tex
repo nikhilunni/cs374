@@ -121,7 +121,10 @@
               (C)   edge                 node {0} (Garbage)
                     edge [bend left=20]  node {1} (D)
               (G)   edge [bend right=50] node {0} (E)
-                    edge [bend left=20]  node {1} (Garbage);
+                    edge [bend left=20]  node {1} (Garbage)
+
+
+              (Garbage) edge [loop below] node {0,1} (Garbage);
       \end{tikzpicture}
       \end{figure}
     \end{enumerate}
