@@ -1,0 +1,62 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 5}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{2}
+\item
+  \begin{tikzpicture}
+    \begin{axis}
+      \addplot+[only marks,color=blue,fill=blue] coordinates {
+        (0,0)
+        (0,1)
+        (0,2)
+        (1,1)
+        (2,0)
+        (2,1)        
+      };
+      \addplot+[only marks,mark=x,color=red] coordinates {
+        (1,3)
+        (2,2)
+      };
+    \end{axis}
+  \end{tikzpicture}\\ 
+  The red x's represent the undominated points, while the rest are the dominated points.
+
+
+  \begin{framed}
+    \begin{algorithm}[H]
+      Let \textbf{sortedX} be the sorted P, such that the comparitor compares x values such that the y values are the tie-breakers for two points with equal x values (Alternatively can be implemented by sorted by y values first, then doing a stable sort by x values)\;
+      maxY $\gets -1$\;
+      undominated $\gets \emptyset$\;
+      \ForEach{$(x_i,y_i)$ in sortedX, starting from i:=n to 1} {
+        \If{$y_i > maxY$} {
+          undominated $\gets \text{ undominated } \cup (x_i,y_i)$\;
+          maxY $\gets y_i$\;
+        }
+      }
+      output undominated\;
+      \caption{3b}
+    \end{algorithm}
+  \end{framed}
+
+  The algorithm sorts the points in increasing x order, where y is the tie-breaker for equal values of x. Then, iterating backwards through the sorted list, it keeps track of the current greatest Y value. If the current element has a Y value greater than our previously recorded Y value, it means that its x value is less than the ``greatest Y value's'' x, but the current element's Y value is greater, so it is an undominated point as well.\\
+
+  Inductively, we can see that if the current element's Y value is not greater than the current Y value, then there must be a value ahead in the sorted list with both a greater X and a greater Y value than the current element, meaning that it is, by definition, a dominated point.\\
+
+  The algorithm runs in O(nlogn) time because we only do a single sort, which is O(nlogn), plus the O(n) time to iterate backwards through the sorted list.
+\end{enumerate}
+\end{document}

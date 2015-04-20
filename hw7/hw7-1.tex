@@ -1,0 +1,41 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 7}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+\item
+  \begin{displaymath}
+    \text{mon}(r, \text{Yes}) = \left\{
+      \begin{array}{lr}
+        w(r) & \text {if } \|\text{children}(r)\| = 0\\
+        w(r) + \sum_{\text{child} \in \text{children}(r)}\text{min(mon(child, No), mon(child, Yes))} & \text{else}
+      \end{array}
+      \right.
+  \end{displaymath}  
+
+  \begin{displaymath}
+    \text{mon}(r, \text{No}) = \left\{
+      \begin{array}{lr}
+        0 & \text {if } \|\text{children}(r)\| = 0\\
+        \sum_{\text{child} \in \text{children}(r)}\text{mon(child, Yes))} & \text{else}
+      \end{array}
+      \right.
+   \end{displaymath}
+   The recurrence is based on the fact that, for any given root node, if it is not included in the minimum vertex cover, then all of its children \textbf{must} be, because otherwise the edges inbetween them would go uncovered. Conversely, if the root is included, then we must then just find the minimum cover for our children, which can be either included or excluded, whichever has a smaller final value.\\\\
+   The function can be called by min(mon(r, Yes), mon(r, No)) for any arbitrary root node of the tree.\\\\
+   We would memoize on both the vertex and whether or not its included. If the vertices were indexed, then we could have a 2D array of size $n\times2$, where n is the number of vertices. The algorithm would build bottom up from the leaf nodes towards the root. Overall, the algorithm would have a time complexity of $O(\|V\| + \|E\|)$, as it visits each node a maximum of 2 times, and at each vertex it does work of the size of its children. Since the structure is a tree, all of this ``children work'' amortizes to $O(\|V\|)$ throughout the execution of the algorithm.
+\end{enumerate}
+\end{document}

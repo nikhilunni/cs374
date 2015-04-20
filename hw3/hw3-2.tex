@@ -1,0 +1,37 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 3}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{1} 
+\item
+  \begin{enumerate}
+    \item 
+      A simple example will show that the parse tree is ambiguous.\\
+      If we wanted ``if condition then if condition then a=1 else a=1'', this could be interpreted as ``if condition then (if condition then (a=1)) else (a=1)'' or ``if condition then (if condition then (a=1) else (a=1))''.
+
+    \item
+      This can be remedied pretty easily by just adding an ``endif'' part of the grammar. The new grammar is now:
+      $$\text{STMT} \longrightarrow \langle \text{ASSIGN} \rangle | \langle \text{IF-THEN} \rangle | \langle \text{IF-THEN-ELSE} \rangle$$
+      $$\text{IF-THEN} \longrightarrow \text{ if condition then } \langle \text{ENDIF-STMT} \rangle$$
+      $$\text{ENDIF-STMT} \longrightarrow \langle \text{ASSIGN} \rangle | \langle \text{IF-THEN} \rangle$$
+      $$\text{IF-THEN-ELSE} \longrightarrow \text{ if condition then } \langle \text{STMT} \rangle \text{ else } \langle \text{STMT} \rangle$$
+
+      This will right associate the ``else'' of any expression.
+  \end{enumerate}
+  
+  
+\end{enumerate}
+\end{document}

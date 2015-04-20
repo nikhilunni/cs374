@@ -1,0 +1,54 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 7}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \item
+    \begin{enumerate}
+      \item
+        Pseudocode : 
+        \begin{framed}
+          \begin{algorithm}[H]      
+            \If{$\|\mathcal{I}\| = 1$}{
+              Color$(\mathcal{I}_1) \gets 1$\;
+              HighestColor$\gets 1$\;
+            }
+            \Else{
+              $I_1 \gets \mathcal{I}_1$\; 
+              MinimumColor($\mathcal{I} \setminus I_1$)\;
+              next $\gets$ closest starting point non-conflicting interval in the colored set ahead of $I_1$\;
+              \If{next = $\emptyset$}{
+                HighestColor $\gets 1 + $ HighestColor\;
+                Color$(I_1) \gets$ HighestColor\;
+              }
+              \Else{
+                Color$(I_1) \gets $ colorOf(next)\;
+              }
+            }
+            \caption{MinimumColor($\mathcal{I}$)}
+          \end{algorithm}
+        \end{framed}
+
+        \item
+          Clearly the lower bound of colors for a set of intervals is at least the maximum number of overlapping intervals at a certain point in time. If n intervals are all happening at some point in time, there is no way for any of them to share a color with any other one.\\\\
+          We are actually achieving this lower bound with the recursive algorithm. The algorithm iterates backwards from the list of intervals sorted by end points, greedily adding to the existing colors. Say that the maximum overlapping number of intervals at a given point in time is n. It suffices to show that our algorithm never creates more than n colors, since that is the lower bound of possible coloring.\\\\
+          Say that our conflicting intervals are intervals $I_1,I_2,\ldots,I_n$, where $I_1$ has the largest endpoint. For any intervals that our algorithm reaches before it reaches $I_1$, we know that it will not add any extra coloring. Assume it is in a coloring other than the $n$ conflict intervals, then that means that it conflicts with all $n$ of the conflicting intervals, meaning that there are $n+1$ conflicting intervals now, which is a contradiction. For any intervals inbetween $I_1$ and $I_n$, because it is tacked onto the color with the closest start point, the only way for it to be in its own coloring is if it conflicts with the $n$, which again is a contradiction. And for all intervals after $I_n$, because we're only appending onto the starting point of any of the past intervals, again, the only way to be in its own color is if it conflicts with all of the $n$.
+          
+    \end{enumerate}
+  
+
+\end{enumerate}
+\end{document}

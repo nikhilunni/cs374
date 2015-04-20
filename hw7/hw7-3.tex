@@ -1,0 +1,50 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 7}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{2}
+\item
+  Now we can use a greedy algorithm to calculate the minimum number of intervals.\\
+  \begin{framed}
+    \begin{algorithm}[H]      
+      Sort p by increasing $x_i$\;
+      Sort I by increasing $b_j$ for $[a_j,b_j] = I_j$\;
+      out $\gets \emptyset$\;
+      i $\gets$ 0\;
+      j $\gets$ 0\;
+      \While{$i < \|p\|$} {
+        k $\gets$ j\;
+        \While{$k < \|I\|$ and $I_{k+1}$ contains $p_i$} {
+          $k \gets k+1$
+        }
+        out $\gets I_k \cup$ out\;
+        \While{$I_j$ does not contain $p_{i+1}$}{$j \gets j+1$\;}
+        \While{$I_k$ contains $p_i$}{$i \gets i+1$\;}
+      }
+      return out\;
+      \caption{Greedy minimum interval cover}
+    \end{algorithm}
+  \end{framed}
+
+  The algorithm basically just sorts the points and the intervals by their endpoints, and, starting from the left-most point, greedily finds the interval that contains the point with the farthest endpoint. After it's found this ``longest interval'' it updates the point index accordingly, taking out the left-most points that are also included in this long interval.\\\\
+  The algorithm is worst-case $O(\|I\|\|p\|)$.\\
+  
+  We can prove that this greedy solution will always yield the least number of intervals. Suppose, at each vertex, starting from the left-most, we picked an interval containing this point that was \textbf{not} the farthest reaching (largest $b_j$). This means that there might be an interval that contains more points than the interval that we chose. This local bad choice is necessarily a global bad choice because, moving forward to the point that was included by the best local choice, we have the option to remove our original choice and use its local best choice, and now we have coverage of the old point, the current point, and any point inbetween for the same price as our original bad local decision.\\
+  Inductively, the local good choices add up to the best possible global solution.
+  
+\end{enumerate}
+\end{document}

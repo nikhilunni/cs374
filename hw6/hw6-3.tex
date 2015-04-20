@@ -1,0 +1,70 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 6}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{2}
+\item
+  $$\text{KSHOT}(p, n, k) = K(p, 1, n, k, \emptyset)\\$$
+  \begin{displaymath}
+    K(p, i, j, k, \text{strat}) = \left\{
+      \begin{array}{lr}
+        0 & \text{ if } k = 0\\
+        0 & \text{ if } j \leq i\\
+        \text{max} \left\{ 
+          \begin{array}{lr}
+            \text{max}_{i+1 \leq x \leq j}(p[x] - p[i] + K(p, x+1, j, k-1, \text{strat} \cup (i,x)))\\
+            K(p, i+1, j, k, \text{strat})
+          \end{array}
+        \right.
+      \end{array}
+    \right. 
+  \end{displaymath}
+
+  \begin{framed}
+    \begin{algorithm}[H]
+      \If{$k = 0 \text{ or } j \leq i$} {
+        return 0\;
+      }
+      hi $\gets -\infty$\;
+      \For{$i+1 \leq x \leq j$} {
+        temp $\gets p[x] - p[i] + K(x+1, j, k-1)$\;
+        \If{temp $>$ hi} {
+          hi = temp\;
+        }
+      }
+      temp $\gets K(i+1, j, k)$\;
+      \If{temp $>$ hi} {
+        hi = temp\;
+      }
+      return hi\;
+      \caption{K-shot strategies}
+    \end{algorithm}
+  \end{framed}
+
+  So the algorithm starts out with two indices, i and j, pointing to 1 and n respectively, to encompass the entire initial problem. You can see the correct initial call for the problem, at the top : KSHOT(p,n,k) = $K(p,1,n,k, \emptyset)$. At every stage, the algorithm has a choice to include i in the list of pairs, or move on, where the second index, x, is anything between i+1 and j, inclusive -- in this case, the method is recursively called with the correct indices, a value of k-1, and the strategy so far is the same thing appended with this new $(b_i,s_i)$ tuple.\\
+
+  Or, the algorithm can move on an index, by skipping the current i, and moving on to i+1, with the rest of the parameters the same.\\
+
+  If we've already exhausted the total number of strategies so far, or if we've decremented k, k times (or if k == 0), or if we've reached the bound of our indices i and j, then the algorithm returns 0 to show that it is nonoptimal (yet still better than a negative choice).\\
+
+  I've written out the pseudocode for the same function, although it only calculates the value of the winning k-shot (off by a factor of 1000 from the real value) merely to show the evaluation order. To actually get the set of k-shots, keep track of the set with each recursive call, like in the mathematical formalization above.\\
+
+  As for the actual memoization, there are only $O(kn^2)$ unique problems, and they're all of the substrings of the array p, given the current number of k-shots we have left. We can see this by the indices i,j, and k. The memoization structure woud be a 3D array of size nxnxk, where each position represents the value of K(i,j,k), as the max value of k-shots between a given i and j are also dictated by how many k-shots we are permitted at most. Because each problem takes O(1) time to evaluate, just simple addition and subtraction, in total, the time complexity of the algorithm is $O(kn^2)$.
+  
+
+\end{enumerate}
+\end{document}

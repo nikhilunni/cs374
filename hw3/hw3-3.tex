@@ -1,0 +1,37 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 3}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{1} 
+\item
+  \begin{enumerate}
+    \item
+      The grammar is as follows:
+      $$\langle \text{Start} \rangle \longrightarrow 1\langle\text{Anything}\rangle 0| 0\langle\text{Anything}\rangle 1| 1\langle\text{Start}\rangle 1|0 \langle\text{Start}\rangle 0$$
+      $$\langle \text{Anything} \rangle \longrightarrow 0\langle\text{Anything}\rangle | 1\langle\text{Anything}\rangle | 0 | 1$$
+
+      The grammar is basically that if the ends of the string are symmetric (both 1 or both 0), then the inside cannot be a palindrome, and it's recursively breaking down the problem. Else, if the ends are different, then the inside can be anything, and accordingly ``Anything'' accepts any string.
+
+    \item
+      $$\langle \text{Start} \rangle \longrightarrow XY | \epsilon$$
+      $$X \longrightarrow ab | aXb$$
+      $$Y \longrightarrow bc | bYc$$
+
+      In the grammar, ``X'' works to add a to the string. For every a, we need to add a b to keep it balanced. Similarly ``Y'' adds c at the end, and proceeds every c with a b, to keep it balanced. This way strings are constructed by specifying an arbitrary number of a's and c's, and the number of b's will update accordingly.
+  \end{enumerate}
+
+\end{enumerate}
+\end{document}

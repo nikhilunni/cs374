@@ -1,0 +1,87 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float, pgfplots, framed}
+\usepackage[]{algorithm2e}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 5}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+\item
+  \begin{enumerate}
+  \item
+    \begin{algorithm}[H]
+      Q $\gets$ makePQ()\;
+      insert(Q, (s,0))\;
+      prev(s) $\gets \emptyset$\;
+      \ForEach{node $u \neq s$} {
+        insert(Q, $(u,L\|V\|)$)\;
+        prev(u) $\gets \emptyset$\;
+      }
+      S $\gets \emptyset$\;
+      \For{$i \gets 1$ to $\|V\|$} {
+        (v, dist(s,v)) $\gets$ extractMin(Q)
+        S = $S \cup \{v\}$\;
+        \ForEach{u in Adj(v)} {
+          \If{dist(s,v) + l(v,u) $<$ dist(s,u)} {
+            decreaseKey(Q, u, dist(s,u), dist(s,v) + l(v,u))\;
+            prev(u) $\gets$ v\;
+          }
+        }
+      }
+      \caption{Bounded-Edge Dijkstra's Algorithm}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+      A $\gets$ zero-index-based array of size $L\|V\| + 1$\;
+      GLOBALMIN $\gets 0$
+      \caption{makePQ()}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+      A[val] $\gets$ A[val] $\cup$ (v,val)\;
+      \caption{insert(Q, (v,val))}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+      A[oldVal] $\gets$ A[oldVal] - v\;
+      insert(Q, (v, newVal))\;
+      \caption{decreaseKey(Q, v, oldVal, newVal)}
+    \end{algorithm}
+
+    \begin{algorithm}[H]
+      \For{i $\gets$ GLOBALMIN to $L\|V\|$} {
+        \If{A[i] $\neq \emptyset$} {
+          GLOBALMIN $\gets$ i\;
+          return any element in A[i] and remove from A[i]\;
+        }
+      }
+      return $\emptyset$\;
+      \caption{extractMin(Q)}
+    \end{algorithm}
+    
+    The algorithm literally copies the original Dikstra's algorithm from the lectures (while changing a few of the arguments so that writing out functions is nicer), with my own priority queue implementation. The entire queue is just a bucket sort like implementation, taking advantage of the fact that the edge lengths in Dikstra's algorithms are always going to be non-strictly increasing, so we can keep track of a global minimum when searching the buckets, instead of starting from 0 every time. This makes the amortized time of extractMin $O(L\|V\|)$ overall throughout the entire function. Besides this, makePQ, insert, and decreaseKey are all $O(1)$ operations since we know of the indices we're dealing with for the array.\\
+
+    I can prove the correctness of the extractMin function as proof of correctness, as most of the algorithm is the same. Trivially, iterating until the first non-null entry in the array to find the minimum can be proven by contradiction. Assume that the first instance found is not the smallest. This means for some index $p < i$, there is an entry. But the first non-null entry was at $i$, so there is a contradiction, and thus the first non-null bucket contains a minimum.\\
+
+    Because we are always picking the correct minimum value at any point, the values of the points we pick have to be greater than or equal to the last value, meaning that the GLOBALMIN is not missing any values.\\
+
+    This makes the algorithm overall $O(nL + m)$.
+
+
+    \item
+      Using the exact same Dikstra's algorithm as above, only now changing the queue once again, if we use a min-heap of size L, where each element in the heap represents a vertex to be pulled. Since we know that the range of values are bounded by the last distance to the origin as well as the last distance + L, by the pidgeonhole principle there must be some repeats. However, it is all in the range of L unique values, meaning we can use a heap of maximum size L for our priority queue.\\
+
+      This makes all queue operations $O(log L)$, as discussed in lecture. Finally, this will make the overall algorithm $O((n+m)log L)$ time.
+  \end{enumerate} 
+\end{enumerate}
+\end{document}

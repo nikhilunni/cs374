@@ -1,0 +1,42 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 4}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+  \setcounter{enumi}{1} 
+\item
+  \begin{algorithm}
+    DangerousWalk(G):\\
+    \> BFS from s, and make $A = A \cap $ reach(s), $B = B \cap$ reach(s)\\
+    \>Mark all nodes in G as unvisited\\
+    \>for each u $\in$ A\\
+    \>\>if DangerousWalk(u) is dangerous\\
+    \>\>\> output ``DANGEROUS''\\
+    \>output ``Safe''\\\\\\
+
+    DangerousWalk(u):\\
+    \>Mark u\\
+    \>For each edge (u,v) in Out(u)\\
+    \>\>If v $\in$ A or v $\in$ (V-A-B)\\
+    \>\>\>If v is not marked\\
+    \>\>\>\>DangerousWalk(v)\\
+    \>\>\>else\\
+    \>\>\>\>output dangerous\\
+    \>output safe\\
+  \end{algorithm}
+  
+  The algorithm hinges on the fact that if there is a dangerous walk, it has to be a cycle of only dangerous or normal vertices. So the algorithm is just a DFS starting from each dangerous node, only taking normal or dangerous vertices as next steps. Once we encounter a cycle, we've successfully found a risky path.
+\end{enumerate}
+\end{document}

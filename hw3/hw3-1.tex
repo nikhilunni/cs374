@@ -1,0 +1,27 @@
+\input{../cs374.tex}
+\usepackage{amsmath, verbatim, tikz, float}
+
+\usetikzlibrary{arrows,automata}
+
+\oddsidemargin 0in
+\evensidemargin 0in
+\textwidth 6.5in
+\topmargin -0.5in
+\textheight 9.0in
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\begin{document}
+
+\solution{Nikhil Unni (nunni2)}{Homework 2}{Spring 2015}
+\pagestyle{myheadings}
+
+\begin{enumerate}
+\item
+  \begin{enumerate}
+    \item
+      Suppose there is an n-state DFA M recognizing L. Then, ww = $01^{n}01^{n}$ is in acceptance, and there is a loop in M of size m, with $1 \leq m \leq n$. This means, by the pidgeonhole principle, that $01^{n+im}01^{n}$ is also accepted. If we let $i=1$, then we get $01^{n+m}01^{n}$, which is not valid.
+
+    \item
+      Suppose there is an n-state DFA M recognizing L. Then, w = $0
+  \end{enumerate}
+\end{enumerate}
+\end{document}
